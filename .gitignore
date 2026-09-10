@@ -1,0 +1,13 @@
+# IDE Files
+.vscode/
+.vs/
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+
+# User-specific Visual Studio files
+*.user
+*.suo
+
+
