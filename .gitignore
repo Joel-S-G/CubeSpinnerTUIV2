@@ -10,4 +10,8 @@
 *.user
 *.suo
 
+# Publish files
+publish/
+*.zip
+
 
