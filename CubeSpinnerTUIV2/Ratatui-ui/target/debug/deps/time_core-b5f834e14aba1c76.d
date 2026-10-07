@@ -1,0 +1,10 @@
+C:\Users\joels\OneDrive - Hills Road Sixth Form College\NEA\CubeSpinnerV2\CubeSpinnerTUIV2\ratatui-ui\target\debug\deps\time_core-b5f834e14aba1c76.d: C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\lib.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\hint.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\unit.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\util.rs
+
+C:\Users\joels\OneDrive - Hills Road Sixth Form College\NEA\CubeSpinnerV2\CubeSpinnerTUIV2\ratatui-ui\target\debug\deps\libtime_core-b5f834e14aba1c76.rlib: C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\lib.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\hint.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\unit.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\util.rs
+
+C:\Users\joels\OneDrive - Hills Road Sixth Form College\NEA\CubeSpinnerV2\CubeSpinnerTUIV2\ratatui-ui\target\debug\deps\libtime_core-b5f834e14aba1c76.rmeta: C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\lib.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\hint.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\unit.rs C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\util.rs
+
+C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\lib.rs:
+C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\hint.rs:
+C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\unit.rs:
+C:\Users\joels\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.9\src\util.rs:

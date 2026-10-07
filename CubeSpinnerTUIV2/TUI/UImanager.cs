@@ -1,19 +1,29 @@
+//using as migration map
+
 using Terminal.Gui;
 using CubeSpinner;
 using System.Data;
 
+// app.rs / backend state
+// application state owned by the C# backend or mirrored by Rust.
 NxNxN_Scrambler scrambler = new();
 CubeSpinner.Timer timer = new();
 Session session = new();
 StatisticsCalc statistics = new();
+
 string currentScramble = scrambler.GenerateScramble();
 SolveRecord? pendingSolve = null;
+
 bool awaitingPenalty = false;
 bool spaceIsDown = false;
 
+// ui.rs / display formatting
+// convert backend values into strings for the Ratatui screen.
 string FormatStatistic(TimeSpan? value) => value?.ToString(@"m\:ss\.ff") ?? "--";
 string FormatTimer(TimeSpan value) => $"{(int)value.TotalMinutes:00}.{value.Seconds:00}.{value.Milliseconds / 10:00}";
 
+//  main.rs / terminal lifecycle
+// Ratatui initialisation, terminal restoration, and main event loop here.
 Application.Init();
 
 ColorScheme terminalScheme = new()
@@ -25,6 +35,11 @@ ColorScheme terminalScheme = new()
 	Disabled = Application.Driver.MakeAttribute(Color.DarkGray, Color.Black)
 };
 Application.Top.ColorScheme = terminalScheme;
+
+
+//  ui.rs / timer screen layout
+// Terminal.Gui controls become Ratatui widgets drawn every frame.
+//layout-------------------------------------------------------------------------
 
 Window window = new("Cube Spinner")
 {
@@ -88,7 +103,11 @@ Label helpLabel = new("Space: start/stop   R: new scramble   1: OK   2: +2   3: 
 	Width = Dim.Fill() - 2
 };
 
-DataTable solveTable = new();
+//  ui.rs / solve-record table model and layout
+// Ratatui does not retain TableView; build the table from current backend state during each draw.
+//end of layout---------------------------------------------------------------------------------
+
+DataTable solveTable = new(); //table of results
 solveTable.Columns.Add("#", typeof(int));
 solveTable.Columns.Add("Scramble", typeof(string));
 solveTable.Columns.Add("Raw time", typeof(string));
@@ -117,7 +136,9 @@ TabView tabs = new()
 tabs.AddTab(new TabView.Tab("Timer", window), true);
 tabs.AddTab(new TabView.Tab("Solve records", solveTableView), false);
 
-void UpdateHistory()
+//  backend state snapshot plus ui.rs rendering data
+// The backend should return solves and statistics. Rust should format and draw in ui.rs.
+void UpdateHistory() //rebuilds table per solve
 {
 	List<string> lines = new();
 	for (int i = 0; i < session.solves.Count; i++)
@@ -149,7 +170,9 @@ void UpdateHistory()
 	solveTableView.Update();
 }
 
-void NewScramble()
+//  Backend/CubeSpinnerBackend.cs command handler
+// domain behaviour, not UI drawing. Rust sends a NewScramble command.
+void NewScramble() //new scramble generation
 {
 	currentScramble = scrambler.GenerateScramble();
 	scrambleLabel.Text = $"Scramble: {currentScramble}";
@@ -157,7 +180,9 @@ void NewScramble()
 	statusLabel.Text = "Press Space to start";
 }
 
-async Task BeginSolve()
+// Backend/CubeSpinnerBackend.cs command handler
+// This starts the timer state machine. The Rust UIsends SpaceDown and displays the returned state.
+async Task BeginSolve() // 
 {
 	timer.spaceDown();
 	timerLabel.Text = "00.00.00";
@@ -173,6 +198,9 @@ async Task BeginSolve()
 	});
 }
 
+// backend state updates
+// Do not update Terminal.Gui controls from this event in new design.
+// expose the latest timer state to Rust through the backend protocol.
 timer.Statechanged += () =>
 {
 	if (timer.State == timerState.isRunning)
@@ -181,6 +209,8 @@ timer.Statechanged += () =>
 	}
 };
 
+// backend solve-completed handling
+// Create the pending solve in the backend and return state showing that a penalty is required.
 timer.SolveCompleted += elapsedTime =>
 {
 	Application.MainLoop.Invoke(() =>
@@ -192,6 +222,8 @@ timer.SolveCompleted += elapsedTime =>
 	});
 };
 
+// input.rs plus backend command protocol
+// The Rust input layer handles key events/sends commands instead of calling UI callbacks.
 Application.Top.KeyDown += args =>
 {
 	Key key = args.KeyEvent.Key;
@@ -201,18 +233,18 @@ Application.Top.KeyDown += args =>
 	{
 		Application.RequestStop();
 		return;
-	}
+	} //quits application, if you didn't figure this out you probably shouldn't be reading this source code
 
-	if ((key == Key.R || key == Key.r) && !awaitingPenalty &&
+	if ((key == Key.R || key == Key.r) && !awaitingPenalty && 
 		timer.State != timerState.isRunning &&
 		timer.State != timerState.isHolding &&
-		timer.State != timerState.isReady)
+		timer.State != timerState.isReady) //reloading the sramble
 	{
 		NewScramble();
 		return;
 	}
 
-
+	//penalty assignment keybinds 
 	if (awaitingPenalty && pendingSolve is not null)
 	{
 		if (key == Key.D1)
@@ -258,6 +290,8 @@ Application.Top.KeyDown += args =>
 	}
 };
 
+// input.rs plus backend command protocol
+// Crossterm key-release handling maps to the backend's SpaceUp command.
 Application.Top.KeyUp += args =>
 {
 	if (args.KeyEvent.Key != Key.Space)
@@ -277,6 +311,8 @@ Application.Top.KeyUp += args =>
 	}
 };
 
+//  main.rs / terminal shutdown
+// Ratatui owns terminal cleanup. No Terminal.Gui controls are created by the backend.
 window.Add(scrambleLabel, timerLabel, statusLabel, historyView, statisticsView, helpLabel);
 window.ColorScheme = terminalScheme;
 solveTableView.ColorScheme = terminalScheme;
