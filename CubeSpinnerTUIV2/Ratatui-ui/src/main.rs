@@ -4,13 +4,29 @@ use color_eyre::Result;
 use crossterm::event::{self, Event};
 use ratatui::{DefaultTerminal, Frame};
 
+//temp test
+mod backend;
+
+use backend::Backend;
+
+fn main() -> Result<(), Box<dyn std::error::Error>>
+{
+    let mut backend = Backend::new()?;
+
+    let response = backend.send("Ping")?;
+    println!("cs response: {response}");
+
+    Ok(())
+}
+
+/*
 fn main() -> Result <()>
 {
     color_eyre::install()?;
     let terminal = ratatui::init();
     let result = run(terminal);
     ratatui::restore();
-    result
+    resultcaa
 }
 
 fn render(frame: &mut Frame)
@@ -43,3 +59,6 @@ fn run(mut terminal: DefaultTerminal) -> Result<()>
         }
     }
 }
+
+*/
+

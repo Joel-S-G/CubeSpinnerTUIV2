@@ -10,6 +10,14 @@ while(true)
     {
         break;
     }
+    else if(command == "Ping")
+    {
+        Console.WriteLine("Pong");
+    }
+    else
+    {
+        Console.WriteLine("unknown command");
+    }
 
     Console.WriteLine($"Recieved {command}");
     Console.Out.Flush();  

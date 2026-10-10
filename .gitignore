@@ -1,6 +1,7 @@
 # IDE Files
 .vscode/
 .vs/
+.env
 
 # Build outputs
 [Bb]in/
@@ -14,3 +15,8 @@
 publish/
 *.zip
 
+# Old TUI
+TUI/
+
+#Rust
+target/
