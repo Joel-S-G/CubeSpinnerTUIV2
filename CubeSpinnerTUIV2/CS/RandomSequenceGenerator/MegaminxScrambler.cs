@@ -6,7 +6,7 @@ namespace CubeSpinner
     {
         protected override List<string> GetMoveList()
         {
-            return new List<string> {"U","U'", "R++", "R--", "D++", "D--"};
+            return new List<string> { "U", "U'", "R++", "R--", "D++", "D--" };
         }
 
         protected override int GetScrambleLen()
@@ -16,7 +16,7 @@ namespace CubeSpinner
 
         protected override List<string> GetMoveSuffixes()
         {
-            return new List<string> {""};
+            return new List<string> { "" };
         }
 
         protected override bool ValidCheck(List<string> scramble, string potentialMove)
@@ -27,7 +27,6 @@ namespace CubeSpinner
         protected override string ScrambleGen()
         {
             return base.ScrambleGen();
-        
         }
     }
 }

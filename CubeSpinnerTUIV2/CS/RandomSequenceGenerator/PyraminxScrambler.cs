@@ -3,15 +3,15 @@ using System;
 namespace CubeSpinner
 {
     public class PyraScrambler : GenericScrambler
-    { 
+    {
         protected override List<string> GetMoveList()
         {
-            return new List<string> {"U", "L", "R", "B" };
+            return new List<string> { "U", "L", "R", "B" };
         }
 
         public List<string> GetTipMoves()
         {
-            return new List<string>{"u", "l", "r", "b"};
+            return new List<string> { "u", "l", "r", "b" };
         }
 
         protected override int GetScrambleLen()
@@ -21,7 +21,7 @@ namespace CubeSpinner
 
         protected override List<string> GetMoveSuffixes()
         {
-            return new List<string> {"", "'"}; // doing 2 moves in one direction on pyra is the same as doing a prime move on the same face
+            return new List<string> { "", "'" }; // doing 2 moves in one direction on pyra is the same as doing a prime move on the same face
         }
 
         protected override bool ValidCheck(List<string> scramble, string potentialMove)

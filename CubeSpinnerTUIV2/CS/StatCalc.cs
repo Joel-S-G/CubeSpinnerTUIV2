@@ -1,22 +1,22 @@
 using System;
+
 namespace CubeSpinner
 {
     public class StatisticsCalc
     {
         //methods : mo3, ao5, ao12, ao100, rolling mean of 100
-        //implement 100 item FIFO structure - no need for more than 100 solves at any given time -> same 
+        //implement 100 item FIFO structure - no need for more than 100 solves at any given time -> same
         //attributes: finaltime, solveRecords solves
-
 
         //circular queue managent
         public const int RollingWindow = 100;
         private readonly Queue<SolveRecord> window = new();
         public int Count
         {
-            get {return window.Count;}
+            get { return window.Count; }
         }
 
-        public void RecordSolve(SolveRecord solve) //inserts a solve into the queue, ensures that it is not full and if it is it will remove the 
+        public void RecordSolve(SolveRecord solve) //inserts a solve into the queue, ensures that it is not full and if it is it will remove the
         {
             window.Enqueue(solve);
 
@@ -24,7 +24,7 @@ namespace CubeSpinner
             {
                 window.Dequeue(); //remove oldest solve
             }
-        } 
+        }
 
         public void Rebuild(List<SolveRecord> allSolves) // recreated the list for when solves are removed from the middle
         {
@@ -38,10 +38,9 @@ namespace CubeSpinner
             }
         }
 
+        //calculation helpers
 
-      //calculation helpers
-      
-       private TimeSpan? CalculateMean(List<TimeSpan> times) 
+        private TimeSpan? CalculateMean(List<TimeSpan> times)
         {
             long totalTicks = 0;
 
@@ -49,12 +48,11 @@ namespace CubeSpinner
             {
                 totalTicks += time.Ticks; // "ticks" are just a very small, precise unit of time
             }
- 
+
             long averageTicks = totalTicks / times.Count;
             return TimeSpan.FromTicks(averageTicks);
         }
 
-       
         private TimeSpan? CalculateTrimmedAverge(List<SolveRecord> solves, int trim)
         {
             if (solves == null || solves.Count == 0)
@@ -143,28 +141,26 @@ namespace CubeSpinner
             return result;
         }
 
-
-
         //following solves averages
 
         public TimeSpan? Mo3
         {
-           get { return CalculateTrimmedAverge(GetLastN(3), 0);}
+            get { return CalculateTrimmedAverge(GetLastN(3), 0); }
         }
 
         public TimeSpan? Ao5
         {
-            get { return CalculateTrimmedAverge(GetLastN(5), 1);}
+            get { return CalculateTrimmedAverge(GetLastN(5), 1); }
         }
 
         public TimeSpan? Ao12
         {
-            get { return CalculateTrimmedAverge(GetLastN(12), 1);}
+            get { return CalculateTrimmedAverge(GetLastN(12), 1); }
         }
 
         public TimeSpan? Ao100
         {
-            get { return CalculateTrimmedAverge(GetLastN(100), 5);}
+            get { return CalculateTrimmedAverge(GetLastN(100), 5); }
         }
 
         public TimeSpan? RollingMean100 //rolling mean of 100
@@ -177,12 +173,12 @@ namespace CubeSpinner
                 }
 
                 List<TimeSpan> times = GetNonDNF();
- 
+
                 if (times.Count == 0)
                 {
                     return null;
                 }
- 
+
                 return CalculateMean(times);
             }
         }
@@ -199,7 +195,7 @@ namespace CubeSpinner
                 return sortedTimes[0];
             }
 
-            double rank = percentile/100 * (sortedTimes.Count-1);
+            double rank = percentile / 100 * (sortedTimes.Count - 1);
 
             int lowerindex = (int)Math.Floor(rank);
             int upperindex = (int)Math.Ceiling(rank);
@@ -212,13 +208,9 @@ namespace CubeSpinner
             double fraction = rank - lowerindex;
             long lowerTicks = sortedTimes[lowerindex].Ticks;
             long upperTicks = sortedTimes[upperindex].Ticks;
-            long blend = lowerTicks + (long)((upperTicks-lowerTicks) * fraction);
+            long blend = lowerTicks + (long)((upperTicks - lowerTicks) * fraction);
 
             return TimeSpan.FromTicks(blend);
-
         }
-        
-
-        
-    }   
+    }
 }
