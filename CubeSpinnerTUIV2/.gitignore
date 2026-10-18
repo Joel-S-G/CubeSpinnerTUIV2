@@ -20,3 +20,7 @@ TUI/
 
 #Rust
 target/
+
+#misc
+TODO.md
+
