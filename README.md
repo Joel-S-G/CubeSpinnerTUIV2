@@ -17,3 +17,14 @@ the above table mostly contains stuff in the works at the moment and will be upd
 
 
 ---
+
+## Contributing 
+
+Please read CONTRIBUTING.md
+
+---
+## Stuff not working?
+
+I will try my best to keep track of issues and stuff but to make my job easier please read the stuff when creating the issue and follow the template.<br>
+
+I will also try to keep updating builds when I eventually get my code to work again 
