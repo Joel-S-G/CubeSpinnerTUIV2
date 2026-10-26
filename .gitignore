@@ -1,0 +1,26 @@
+# IDE Files
+.vscode/
+.vs/
+.env
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+
+# User-specific Visual Studio files
+*.user
+*.suo
+
+# Publish files
+publish/
+*.zip
+
+# Old TUI
+TUI/
+
+#Rust
+target/
+
+#misc
+TODO.md
+
